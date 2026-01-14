@@ -2,6 +2,7 @@ import React from 'react';
 import { AuthProvider, useAuth } from './utils/AuthContext';
 import LandingPage from './pages/LandingPage';
 import MotherDashboard from './pages/MotherDashboard';
+import PregnancyTracker from './pages/PregnancyTracker';
 import DoctorDashboard from './pages/DoctorDashboard';
 import MidwifeDashboard from './pages/MidwifeDashboard';
 import Login from './pages/Login';
@@ -27,6 +28,12 @@ const AppContent = () => {
       case 'mother-dashboard':
         return isAuthenticated && user?.Role === 'mother' ? (
           <MotherDashboard onNavigate={setCurrentPage} />
+        ) : (
+          <Login onNavigate={setCurrentPage} />
+        );
+      case 'pregnancy-tracker':
+        return isAuthenticated && user?.Role === 'mother' ? (
+          <PregnancyTracker onNavigate={setCurrentPage} />
         ) : (
           <Login onNavigate={setCurrentPage} />
         );

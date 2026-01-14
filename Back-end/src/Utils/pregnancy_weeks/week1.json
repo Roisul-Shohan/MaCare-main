@@ -1,0 +1,61 @@
+{
+  "week": 1,
+  "weekLabel": "গর্ভাবস্থার ১ম সপ্তাহ",
+  "trimester": 1,
+
+  "baby": {
+    "stage": "Pre-conception",
+    "weight": { "grams": 0 },
+    "length": { "mm": 0 },
+    "description": "এই সপ্তাহে ভ্রূণ তৈরি হয়নি। শরীর গর্ভধারণের জন্য প্রস্তুতি নিচ্ছে।"
+  },
+
+  "developmentHighlights": [
+    "জরায়ুর ভেতরের স্তর (endometrium) তৈরি শুরু",
+    "ডিম্বাণু পরিপক্ব হওয়ার প্রস্তুতি"
+  ],
+
+  "motherChanges": [
+    "মাসিক শুরু (LMP)",
+    "হরমোনাল পরিবর্তন"
+  ],
+
+  "doThisWeek": [
+    "ফোলিক অ্যাসিড ৪০০ মাইক্রোগ্রাম শুরু করুন",
+    "ধূমপান ও তামাক পরিহার করুন",
+    "পরিকল্পিত গর্ভধারণ হলে স্বাস্থ্যকেন্দ্রে পরামর্শ নিন"
+  ],
+
+  "avoidThisWeek": [
+    "অপ্রয়োজনীয় ওষুধ",
+    "অ্যালকোহল"
+  ],
+
+  "warnings": [
+    "অস্বাভাবিক রক্তপাত",
+    "তীব্র পেট ব্যথা"
+  ],
+
+  "images": [
+    {
+      "type": "medical_illustration",
+      "url": null,
+      "attribution": "Wikimedia Commons (CC BY-SA)"
+    }
+  ],
+
+  "sources": [
+    {
+      "name": "BabyCenter – Week by Week Pregnancy",
+      "url": "https://www.babycenter.com/pregnancy/week-by-week"
+    },
+    {
+      "name": "Mayo Clinic – Fetal Development",
+      "url": "https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week"
+    },
+    {
+      "name": "WHO – Antenatal Care",
+      "url": "https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing"
+    }
+  ]
+}

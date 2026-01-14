@@ -11,6 +11,9 @@ import { MidwifeMotherAssignment } from "../Models/MidwifeMotherAssignment.model
 import { ApiError } from "../Utils/ApiError.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 import { AsynHandler } from "../Utils/AsyncHandler.js";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // 1. Get mother profile
 const getMotherProfile = AsynHandler(async (req, res) => {
@@ -300,6 +303,61 @@ const getMyCheckups = AsynHandler(async (req, res) => {
   );
 });
 
+// 15. Return pregnancy weeks data (static JSON file stored in Utils)
+const getPregnancyWeeks = AsynHandler(async (req, res) => {
+  try {
+    // Resolve directory relative to this file in a cross-platform way
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const normalized = path.join(__dirname, '../Utils/pregnancy_weeks');
+
+    const files = fs.readdirSync(normalized).filter(f => f.endsWith('.json'));
+    let weeks = files.map(f => {
+      const raw = fs.readFileSync(path.join(normalized, f), 'utf-8');
+      return JSON.parse(raw);
+    }).sort((a, b) => a.week - b.week);
+
+    // Translate/normalize certain textual fields to Bangla-only for frontend display
+    weeks = weeks.map(w => {
+      // Ensure weekLabel remains (should already be Bangla)
+      // Replace source.name with Bangla-friendly placeholder or transliteration
+      if (w.source && w.source.name) {
+        const s = String(w.source.name).toLowerCase();
+        if (s.includes('babycenter') || s.includes('baby center')) w.source.name = 'বেবিসেন্টার';
+        else if (s.includes('mayo') || s.includes('mayo clinic')) w.source.name = 'মায়ো ক্লিনিক';
+        else if (s.includes('who') || s.includes('world health')) w.source.name = 'বিশ্ব স্বাস্থ্য সংস্থা';
+        else if (s.includes('sohay') || s.includes('shohay')) w.source.name = 'শোহায়';
+        else w.source.name = 'বিস্তারিত দেখুন';
+      }
+
+      // Normalize image attributions to Bangla or remove English
+      if (Array.isArray(w.images)) {
+        w.images = w.images.map(img => {
+          const newImg = { ...img };
+          // if attribution exists, map common sources, else provide a Bangla placeholder
+          if (newImg.attribution) {
+            const a = String(newImg.attribution).toLowerCase();
+            if (a.includes('babycenter')) newImg.attribution = 'বেবিসেন্টার';
+            else if (a.includes('mayo')) newImg.attribution = 'মায়ো ক্লিনিক';
+            else if (a.includes('who')) newImg.attribution = 'বিশ্ব স্বাস্থ্য সংস্থা';
+            else newImg.attribution = 'ছবি: উৎস';
+          } else {
+            newImg.attribution = 'ছবি: উৎস';
+          }
+          return newImg;
+        });
+      }
+
+      return w;
+    });
+
+    return res.status(200).json(new ApiResponse(200, weeks, 'Pregnancy weeks data fetched'));
+  } catch (err) {
+    console.error('Failed to load pregnancy weeks from directory:', err);
+    throw new ApiError(500, 'Failed to load pregnancy weeks data');
+  }
+});
+
 export {
     getMotherProfile,
     getMaternalRecord,
@@ -314,5 +372,6 @@ export {
     getAllDoctorAdvice,
     getAllHealthUpdates,
     markAdviceAsRead,
-    getMyCheckups
+    getMyCheckups,
+    getPregnancyWeeks
 }

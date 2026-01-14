@@ -1,0 +1,46 @@
+{
+  "week": 18,
+  "weekLabel": "গর্ভাবস্থার ১৮তম সপ্তাহ",
+  "babyWeight": { "grams": 190 },
+  "babyLength": { "mm": 142 },
+  "developmentHighlights": [
+    "ভ্রূণ movement আরও active, mother movement অনুভব করতে পারে",
+    "হাড় ও মাংশপেশি শক্ত হচ্ছে",
+    "কানের হাড় ও hearing development শুরু হতে পারে",
+    "চোখ ও কান proportionate, skin translucent",
+    "শিশুর reflexes (thumb sucking) শুরু হতে পারে"
+  ],
+  "motherChanges": [
+    "পেট আরও বেড়ে চলেছে, pressure বা stretching অনুভূত হতে পারে",
+    "backache বা কোমরে হালকা চাপ থাকতে পারে",
+    "energy level ধীরে ধীরে বেড়ে আসছে",
+    "হালকা মেজাজ পরিবর্তন বা আবেগপ্রবণতা"
+  ],
+  "doThisWeek": [
+    "সুষম খাদ্য ও পর্যাপ্ত পানি পান নিশ্চিত করুন",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "নিরাপদ হালকা ব্যায়াম করুন",
+    "ANC visit-2 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
+    "ধূমপান ও অ্যালকোহল সম্পূর্ণ এড়িয়ে চলুন"
+  ],
+  "warnings": [
+    "অস্বাভাবিক বা অতিরিক্ত রক্তপাত",
+    "তীব্র পেট বা পিঠ ব্যথা",
+    "জ্বর বা সংক্রমণের লক্ষণ"
+  ],
+  "images": [
+    {
+      "type": "real_medical_image",
+      "url": "https://assets.shohay.health/uploads/2021/05/Week-18-1.jpg",
+      "attribution": "Shohay Health – Pregnancy Week 18"
+    }
+  ],
+  "source": {
+    "name": "Shohay Health – Pregnancy Care",
+    "url": "https://shohay.health"
+  },
+  "bangladeshANC": {
+    "visit": 2,
+    "note": "এই সময়ে ANC visit 2 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন।"
+  }
+}

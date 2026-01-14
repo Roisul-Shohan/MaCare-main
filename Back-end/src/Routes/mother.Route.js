@@ -15,6 +15,7 @@ import {
   getAllHealthUpdates,
   markAdviceAsRead,
   getMyCheckups
+  , getPregnancyWeeks
 } from "../Controllers/mother.controller.js";
 
 const router = Router();
@@ -36,5 +37,7 @@ router.route('/doctor-advice').get(jwtVerification, getAllDoctorAdvice);
 router.route('/doctor-advice/:adviceId/read').patch(jwtVerification, markAdviceAsRead);
 router.route('/health-updates').get(jwtVerification, getAllHealthUpdates);
 router.route('/checkups').get(jwtVerification, getMyCheckups);
+// Pregnancy weeks data (static or seeded)
+router.route('/pregnancy/weeks').get(jwtVerification, getPregnancyWeeks);
 
 export default router;

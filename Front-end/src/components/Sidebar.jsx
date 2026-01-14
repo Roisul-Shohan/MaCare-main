@@ -4,11 +4,11 @@ import React from 'react';
  * Sidebar Component for Dashboards
  * Navigation sidebar for Mother, Doctor, and Midwife dashboards
  */
-const Sidebar = ({ userRole = 'mother' }) => {
+const Sidebar = ({ userRole = 'mother', onNavigate }) => {
   // Different menu items based on user role
   const motherMenu = [
-    { name: 'ড্যাশবোর্ড', icon: 'home', link: '#dashboard' },
-    { name: 'গর্ভাবস্থা ট্র্যাকার', icon: 'chart', link: '#pregnancy' },
+    { name: 'ড্যাশবোর্ড', icon: 'home', link: '#dashboard', route: 'mother-dashboard' },
+    { name: 'গর্ভাবস্থা ট্র্যাকার', icon: 'chart', link: '#pregnancy', route: 'pregnancy-tracker' },
     { name: 'টিকার সময়সূচী', icon: 'calendar', link: '#vaccine' },
     { name: 'পুষ্টি পরামর্শ', icon: 'food', link: '#nutrition' },
     { name: 'মেসেজ', icon: 'message', link: '#messages' },
@@ -39,7 +39,7 @@ const Sidebar = ({ userRole = 'mother' }) => {
   };
 
   return (
-    <aside className="bg-white w-64 min-h-screen shadow-lg">
+    <aside className="bg-white w-64 h-screen flex flex-col sticky top-0 overflow-y-auto shadow-lg">
       {/* Logo/Brand */}
       <div className="p-6 border-b">
         <h2 className="text-2xl font-bold text-primary-600">MaCare</h2>
@@ -47,15 +47,29 @@ const Sidebar = ({ userRole = 'mother' }) => {
           {userRole === 'mother' ? 'মায়ের প্যানেল' : 'ডাক্তারের প্যানেল'}
         </p>
       </div>
-
       {/* Navigation Menu */}
-      <nav className="p-4">
+      <nav className="p-4 flex-1 overflow-y-auto">
         <ul className="space-y-2">
           {menu.map((item, index) => (
             <li key={index}>
+              {/* prefer onNavigate when provided (app uses state-based routing) */}
               <a
                 href={item.link}
-                className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors"
+                onClick={(e) => {
+                  if (onNavigate && item.route) {
+                    e.preventDefault();
+                    onNavigate(item.route);
+                  } else if (onNavigate && item.name === 'গর্ভাবস্থা ট্র্যাকার') {
+                    // legacy fallback: map the pregnancy tracker link
+                    e.preventDefault();
+                    onNavigate('pregnancy-tracker');
+                  }
+                }}
+                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  item.name === 'গর্ভাবস্থা ট্র্যাকার'
+                    ? 'bg-gradient-to-r from-pink-50 to-purple-50 text-pink-700 border border-pink-200 shadow-sm hover:from-pink-100 hover:to-purple-100 hover:shadow-md'
+                    : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+                }`}
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   {getIcon(item.icon)}
@@ -68,7 +82,7 @@ const Sidebar = ({ userRole = 'mother' }) => {
       </nav>
 
       {/* User Profile */}
-      <div className="absolute bottom-0 w-64 p-4 border-t">
+      <div className="mt-auto w-full p-4 border-t">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">
             {userRole === 'mother' ? 'ম' : 'ড'}
