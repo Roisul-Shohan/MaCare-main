@@ -7,6 +7,7 @@ import PregnancyProfileView from '../components/PregnancyProfileView';
 import BabyProfileForm from '../components/BabyProfileForm';
 import BabyProfileView from '../components/BabyProfileView';
 import PregnancyCalculator from '../components/PregnancyCalculator';
+import VaccineTracker from '../components/VaccineTracker/VaccineTracker';
 import { useAuth } from '../utils/AuthContext';
 import api from '../utils/api';
 
@@ -38,6 +39,8 @@ const MotherDashboard = () => {
       if (!profileData) {
         await fetchProfileData();
       }
+    } else if (page === 'vaccine-schedule') {
+      setCurrentPage('vaccine-schedule');
     } else {
       setCurrentPage('dashboard');
     }
@@ -537,7 +540,6 @@ const MotherDashboard = () => {
             </div>
           </>
         )}
-
         {/* Profile Page - Shohay Style */}
         {currentPage === 'profile' && (
           <>
@@ -741,6 +743,11 @@ const MotherDashboard = () => {
               </div>
             )}
           </>
+        )}
+
+        {/* Vaccine Schedule Page */}
+        {currentPage === 'vaccine-schedule' && (
+          <VaccineTracker />
         )}
       </main>
     </div>

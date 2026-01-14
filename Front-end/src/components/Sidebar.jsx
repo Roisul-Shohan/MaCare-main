@@ -11,7 +11,8 @@ const Sidebar = ({ userRole = 'mother', onNavigate }) => {
   const motherMenu = [
     { name: 'ড্যাশবোর্ড', icon: 'home', action: 'dashboard' },
     { name: 'গর্ভাবস্থা ট্র্যাকার', icon: 'chart', action: 'pregnancy' },
-    { name: 'টিকার সময়সূচী', icon: 'calendar', action: 'vaccine' },
+    { name: 'টিকার সময়সূচী (বাচ্চা)', icon: 'calendar', action: 'vaccine' },
+    { name: 'টিকার সময়সূচী (মা)', icon: 'syringe', action: 'vaccine-schedule' },
     { name: 'পুষ্টি পরামর্শ', icon: 'food', action: 'nutrition' },
     { name: 'মেসেজ', icon: 'message', action: 'messages' },
     { name: 'জরুরি যোগাযোগ', icon: 'phone', action: 'emergency' },
@@ -32,6 +33,7 @@ const Sidebar = ({ userRole = 'mother', onNavigate }) => {
       home: <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />,
       chart: <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />,
       calendar: <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />,
+      syringe: <path fillRule="evenodd" d="M17.293 1.293a1 1 0 011.414 1.414l-2 2a1 1 0 01-1.414 0l-1-1-3.586 3.586a3 3 0 00-2.828-.586l-4.172 4.172a3 3 0 100 4.242l4.172 4.172a3 3 0 004.242 0l4.172-4.172a3 3 0 00-.586-2.828l3.586-3.586-1-1a1 1 0 010-1.414l2-2zm-11 11.414L4.586 11l1.707-1.707 1.707 1.707-1.707 1.707zm3.414 0l-1.707-1.707L9.707 9.293 11.414 11l-1.707 1.707z" clipRule="evenodd" />,
       food: <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6 7a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-3 3a1 1 0 100 2h.01a1 1 0 100-2H10zm-4 1a1 1 0 011-1h.01a1 1 0 110 2H7a1 1 0 01-1-1zm1-4a1 1 0 100 2h.01a1 1 0 100-2H7zm2 1a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm4-4a1 1 0 100 2h.01a1 1 0 100-2H13zM9 9a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zM7 8a1 1 0 000 2h.01a1 1 0 000-2H7z" clipRule="evenodd" />,
       message: <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3.293 3.293 3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />,
       phone: <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />,
