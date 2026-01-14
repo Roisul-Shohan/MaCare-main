@@ -32,42 +32,40 @@
         Gender:{
             type:String,
             required:true,
-            enum:["male","female","other"]
-        },
+        enum:["Male","Female","Other","male","female","other"]
+    },
 
-        Password:{
-            type:String,
-            required:[true,"password is required"]
-        },
+    Password:{
+        type:String,
+        required:[true,"password is required"]
+    },
 
-    
-
-        PhoneNumber:{
+    PhoneNumber:{
         type:String,   //not use Number type because mongodb store data without leading zero
         //    required:true,
         match: [/^01[3-9]\d{8}$/, "Enter a valid Bangladeshi phone number"]
-        },
+    },
 
-        ProfileImage:{
-            type:String,
-            required:true,
-        },
+    ProfileImage:{
+        type:String,
+        default:""
+    },
 
-        ProfilePublicId:{
-            type:String,
-            required:true,
-        },
+    ProfilePublicId:{
+        type:String,
+        default:""
+    },
 
-        RefreshToken:{
-            type:String
-        },
+    RefreshToken:{
+        type:String
+    },
 
-        Role:{
-            type:String,
-            required:true,
-            enum:["mother",'midWife','doctor','admin'],
-            default:"mother"  
-        },
+    Role:{
+        type:String,
+        required:true,
+        enum:["mother",'midWife','doctor','admin'],
+        default:"mother"  
+    },
 
 
        DateOfBirth:{
@@ -80,9 +78,7 @@
        },
 
        address:{
-         village:String,
-         upazila:String,
-         zila:String
+         type:String
        }
 
 
@@ -96,7 +92,10 @@
 })
 
     UserSchema.methods.IsPasswordCorrect=async function (Password) {
-        return await bcrypt.compare(Password,this.Password);
+        if (!Password || !this.Password) {
+            return false;
+        }
+        return await bcrypt.compare(Password, this.Password);
     }
     
      UserSchema.methods.IssecretKeyCorrect=async function (secretKey) {

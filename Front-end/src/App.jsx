@@ -1,37 +1,49 @@
 import React from 'react';
+import { AuthProvider, useAuth } from './utils/AuthContext';
 import LandingPage from './pages/LandingPage';
 import MotherDashboard from './pages/MotherDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
+import MidwifeDashboard from './pages/MidwifeDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
 /**
- * Main App Component
+ * Main App Component with Authentication
  * Simple routing system for MaCare application
- * 
- * To navigate between pages, change the 'currentPage' state
- * In a production app, you would use React Router
  */
-const App = () => {
-  // Simple state-based routing (for demo purposes)
-  // Change this value to see different pages: 'landing', 'login', 'register', 'mother-dashboard', 'doctor-dashboard'
+const AppContent = () => {
   const [currentPage, setCurrentPage] = React.useState('landing');
+  const { isAuthenticated, user, logout } = useAuth();
 
   // Render different pages based on currentPage state
   const renderPage = () => {
     switch (currentPage) {
       case 'landing':
-        return <LandingPage />;
+        return <LandingPage onNavigate={setCurrentPage} />;
       case 'login':
-        return <Login />;
+        return <Login onNavigate={setCurrentPage} />;
       case 'register':
-        return <Register />;
+        return <Register onNavigate={setCurrentPage} />;
       case 'mother-dashboard':
-        return <MotherDashboard />;
+        return isAuthenticated && user?.Role === 'mother' ? (
+          <MotherDashboard onNavigate={setCurrentPage} />
+        ) : (
+          <Login onNavigate={setCurrentPage} />
+        );
       case 'doctor-dashboard':
-        return <DoctorDashboard />;
+        return isAuthenticated && user?.Role === 'doctor' ? (
+          <DoctorDashboard onNavigate={setCurrentPage} />
+        ) : (
+          <Login onNavigate={setCurrentPage} />
+        );
+      case 'midwife-dashboard':
+        return isAuthenticated && user?.Role === 'midWife' ? (
+          <MidwifeDashboard onNavigate={setCurrentPage} />
+        ) : (
+          <Login onNavigate={setCurrentPage} />
+        );
       default:
-        return <LandingPage />;
+        return <LandingPage onNavigate={setCurrentPage} />;
     }
   };
 
@@ -41,6 +53,11 @@ const App = () => {
       <div className="fixed bottom-4 right-4 z-50">
         <div className="bg-white rounded-lg shadow-2xl p-4 max-w-xs">
           <h3 className="font-bold text-sm mb-2 text-gray-900">Demo Navigation</h3>
+          {isAuthenticated && (
+            <p className="text-xs mb-2 text-gray-600 border-b pb-2">
+              {user?.FullName} ({user?.Role})
+            </p>
+          )}
           <div className="space-y-2">
             <button
               onClick={() => setCurrentPage('landing')}
@@ -82,6 +99,25 @@ const App = () => {
             >
               Doctor Dashboard
             </button>
+            <button
+              onClick={() => setCurrentPage('midwife-dashboard')}
+              className={`w-full text-left px-3 py-2 rounded text-sm ${
+                currentPage === 'midwife-dashboard' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              Midwife Dashboard
+            </button>
+            {isAuthenticated && (
+              <button
+                onClick={() => {
+                  logout();
+                  setCurrentPage('landing');
+                }}
+                className="w-full text-left px-3 py-2 rounded text-sm bg-red-500 text-white hover:bg-red-600"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -89,6 +125,14 @@ const App = () => {
       {/* Main Content */}
       {renderPage()}
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 

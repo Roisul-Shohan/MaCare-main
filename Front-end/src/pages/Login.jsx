@@ -1,11 +1,46 @@
 import React from 'react';
+import { useAuth } from '../utils/AuthContext';
 
 /**
  * Login Page
  * User authentication page with role-based login
  */
-const Login = () => {
-  const [userRole, setUserRole] = React.useState('mother');
+const Login = ({ onNavigate }) => {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+  
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const result = await login({ email, password });
+      
+      if (result.success) {
+        // Navigate based on user role
+        if (result.user.Role === 'mother') {
+          onNavigate('mother-dashboard');
+        } else if (result.user.Role === 'doctor') {
+          onNavigate('doctor-dashboard');
+        } else if (result.user.Role === 'midWife') {
+          onNavigate('midwife-dashboard');
+        } else {
+          onNavigate('landing');
+        }
+      } else {
+        setError(result.message || 'Login failed');
+      }
+    } catch (err) {
+      setError(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center px-4">
@@ -20,51 +55,25 @@ const Login = () => {
         <div className="card">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">লগইন করুন</h2>
 
-          {/* Role Selection */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
-              আপনি কে?
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setUserRole('mother')}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  userRole === 'mother'
-                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                    : 'border-gray-300 hover:border-primary-300'
-                }`}
-              >
-                <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                </svg>
-                <span className="font-semibold">মা</span>
-              </button>
-              <button
-                onClick={() => setUserRole('doctor')}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  userRole === 'doctor'
-                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                    : 'border-gray-300 hover:border-primary-300'
-                }`}
-              >
-                <svg className="w-8 h-8 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
-                </svg>
-                <span className="font-semibold">ডাক্তার/মিডওয়াইফ</span>
-              </button>
-            </div>
-          </div>
-
           {/* Login Form */}
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                মোবাইল নম্বর
+                ইমেইল
               </label>
               <input
-                type="tel"
-                placeholder="০১৭XXXXXXXX"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
                 className="input-field"
+                required
               />
             </div>
 
@@ -74,8 +83,11 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="আপনার পাসওয়ার্ড"
                 className="input-field"
+                required
               />
             </div>
 
@@ -89,8 +101,12 @@ const Login = () => {
               </a>
             </div>
 
-            <button type="submit" className="w-full btn-primary">
-              লগইন করুন
+            <button 
+              type="submit" 
+              className="w-full btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'লগইন হচ্ছে...' : 'লগইন করুন'}
             </button>
           </form>
 
@@ -98,9 +114,12 @@ const Login = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               নতুন ব্যবহারকারী?{' '}
-              <a href="#register" className="text-primary-600 hover:text-primary-700 font-semibold">
+              <button 
+                onClick={() => onNavigate('register')}
+                className="text-primary-600 hover:text-primary-700 font-semibold"
+              >
                 রেজিস্টার করুন
-              </a>
+              </button>
             </p>
           </div>
         </div>

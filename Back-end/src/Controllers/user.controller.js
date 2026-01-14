@@ -36,29 +36,18 @@ const Register=AsynHandler(async(req,res)=>{
       ProfileImageLocalPath=req.files?.ProfileImage[0]?.path;
     }
 
-
-
-    if(!ProfileImageLocalPath){
-        throw new ApiError(401,"profile picture is required");
+    // Profile image is optional, set to empty string if not provided
+    let ProfileImage = { url: "", public_id: "" };
+    
+    if(ProfileImageLocalPath){
+      console.log(ProfileImageLocalPath);
+      ProfileImage = await FileUpload(ProfileImageLocalPath);
+      
+      if(!ProfileImage) throw new ApiError(501,"Cloudinary problem");
     }
   
-    console.log(ProfileImageLocalPath);
-
-
-
-    const ProfileImage=await FileUpload(ProfileImageLocalPath);
-
-    if(!ProfileImage)throw new ApiError(501,"Cloudinary problem")
+    console.log("Creating user with:", { FullName, UserName, Email, Gender, hasPassword: !!Password, Role });
     
-    let parsedAddress = null;
-    if (address) { 
-        try { 
-            parsedAddress = typeof address === "string" ? JSON.parse(address) : address; 
-        } catch (err) { 
-            throw new ApiError(400, "Invalid address format, must be JSON"); 
-        }
-     }
-    console.log(address);
    const user=await User.create({
       FullName,
       UserName,
@@ -68,10 +57,12 @@ const Register=AsynHandler(async(req,res)=>{
       PhoneNumber,
       Role,
       DateOfBirth,
-      address:parsedAddress,
-      ProfileImage:ProfileImage?.url,
-      ProfilePublicId:ProfileImage?.public_id,
+      address:address,
+      ProfileImage:ProfileImage?.url || "",
+      ProfilePublicId:ProfileImage?.public_id || "",
    })
+   
+   console.log("User created, checking if password was hashed:", { userId: user._id, hasHashedPassword: !!user.Password });
 
    const CreateUser=await User.findById(user._id).select("-Password -RefreshToken");
    if(!CreateUser)throw new ApiError(501,"Something Went Wrong while regestering! ")
@@ -102,6 +93,8 @@ const LogIn=AsynHandler(async(req,res)=>{
 
     
     const {UserName,Email,Password}=req.body;
+    
+    console.log("Login attempt:", { UserName, Email, hasPassword: !!Password });
 
     if ((!UserName?.trim() && !Email?.trim()) || !Password?.trim()) {
     throw new ApiError(401, "Username or Email and Password are required!");
@@ -109,9 +102,11 @@ const LogIn=AsynHandler(async(req,res)=>{
 
     const user=await User.findOne({
         $or:[{Email},{UserName}]
-    })
+    }).select("+Password")
 
     if(!user)throw new ApiError(401,"user not found!");
+    
+    console.log("User found, has stored password:", !!user.Password);
 
     const IsPassCorr=await user.IsPasswordCorrect(Password)
     if(!IsPassCorr)throw new ApiError(401,"Password is not correct ");
