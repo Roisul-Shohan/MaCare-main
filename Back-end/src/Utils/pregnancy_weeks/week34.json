@@ -4,39 +4,39 @@
   "babyWeight": { "grams": 2100 },
   "babyLength": { "mm": 450 },
   "developmentHighlights": [
-    "ভ্রূণ movement mother স্পষ্টভাবে অনুভব করতে পারে",
-    "lungs ও breathing muscles উন্নত, respiratory reflexes ready",
-    "muscles ও reflexes শক্তিশালী",
-    "skin opaque, vernix protective layer পূর্ণ",
-    "facial features ও eyelashes/eyebrows সম্পূর্ণ"
+    "ভ্রূণ স্পষ্টভাবে অনুভব করা যায়",
+    "ফুসফুস ও শ্বাসনালী পেশী উন্নত, শ্বাসনালী প্রতিসংবেদন সক্রিয়",
+    "পেশী ও প্রতিসংবেদন শক্তিশালী",
+    "ত্বক অস্বচ্ছ, vernix সুরক্ষামূলক স্তর পূর্ণ",
+    "মুখমন্ডল, চোখের পাতা ও ভ্রু সম্পূর্ণ বিকশিত"
   ],
   "motherChanges": [
-    "পেট বড়, stretching & pressure অনুভূত হতে পারে",
-    "backache বা কোমরে চাপ থাকতে পারে",
-    "edema বা swelling হতে পারে",
-    "energy level কমতে পারে, sleep disturbance হতে পারে"
+    "পেট বড়, পেশীর টান ও চাপ অনুভূত হতে পারে",
+    "পিঠে ব্যথা বা কোমরে চাপ থাকতে পারে",
+    "ফোলা বা edema থাকতে পারে",
+    "শক্তি কমতে পারে, ঘুম বিঘ্নিত হতে পারে"
   ],
   "doThisWeek": [
-    "সুষম খাদ্য ও পর্যাপ্ত পানি গ্রহণ চালিয়ে যান",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম বা walking চালিয়ে যান",
-    "ANC visit-4 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
-    "ধূমপান ও অ্যালকোহল এড়িয়ে চলুন"
+    "সুষম খাদ্য ও পর্যাপ্ত পানি গ্রহণ চালিয়ে যান",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম চালিয়ে যান",
+    "ANC visit-4 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
+    "ধূমপান ও অ্যালকোহল এড়িয়ে চলুন"
   ],
   "warnings": [
     "অস্বাভাবিক রক্তপাত বা তীব্র পেট ব্যথা",
     "জ্বর বা সংক্রমণের লক্ষণ",
-    "প্রচণ্ড contractions বা জলের leakage"
+    "প্রচণ্ড সংকোচন বা জলের leakage"
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/06/Week-34-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 34"
+      "attribution": "Shohay Health – গর্ভাবস্থা ৩৪তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

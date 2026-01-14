@@ -4,24 +4,24 @@
   "babyWeight": { "grams": 1300 },
   "babyLength": { "mm": 399 },
   "developmentHighlights": [
-    "ভ্রূণ movement mother সহজে অনুভব করতে পারে",
-    "lungs, digestive system ও muscles আরও বিকশিত হচ্ছে",
-    "skin opaque, vernix protective layer বৃদ্ধি পাচ্ছে",
-    "facial features স্পষ্ট এবং reflexes উন্নত",
-    "weight gain দ্রুত হচ্ছে"
+    "ভ্রূণ সহজেই অনুভব করা যায়",
+    "ফুসফুস, পাচনতন্ত্র ও পেশী আরও বিকশিত হচ্ছে",
+    "ত্বক অস্বচ্ছ, vernix সুরক্ষামূলক স্তর বৃদ্ধি পাচ্ছে",
+    "মুখমন্ডল স্পষ্ট এবং প্রতিসংবেদন উন্নত",
+    "ওজন দ্রুত বৃদ্ধি পাচ্ছে"
   ],
   "motherChanges": [
-    "পেট বড়, stretching & pressure অনুভূত হতে পারে",
-    "backache বা কোমরে চাপ থাকতে পারে",
-    "edema বা swelling হতে পারে",
-    "energy level কমতে পারে"
+    "পেট বড়, পেশীর টান ও চাপ অনুভূত হতে পারে",
+    "পিঠে ব্যথা বা কোমরে চাপ থাকতে পারে",
+    "ফোলা বা edema থাকতে পারে",
+    "শক্তি কমতে পারে"
   ],
   "doThisWeek": [
-    "সুষম খাদ্য ও পর্যাপ্ত পানি পান চালিয়ে যান",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম করুন",
-    "ANC visit-3 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
-    "ধূমপান ও অ্যালকোহল সম্পূর্ণ এড়িয়ে চলুন"
+    "সুষম খাদ্য ও পর্যাপ্ত পানি পান চালিয়ে যান",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম করুন",
+    "ANC visit-3 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
+    "ধূমপান ও অ্যালকোহল সম্পূর্ণ এড়িয়ে চলুন"
   ],
   "warnings": [
     "অস্বাভাবিক রক্তপাত বা তীব্র পেট ব্যথা",
@@ -30,13 +30,13 @@
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/06/Week-30-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 30"
+      "attribution": "Shohay Health – গর্ভাবস্থা ৩০তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

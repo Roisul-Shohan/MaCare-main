@@ -4,39 +4,39 @@
   "babyWeight": { "grams": 2400 },
   "babyLength": { "mm": 462 },
   "developmentHighlights": [
-    "ভ্রূণ movement mother স্পষ্টভাবে অনুভব করতে পারে",
-    "lungs, brain ও muscles আরও বিকশিত",
-    "skin opaque, vernix protective layer পূর্ণ",
-    "muscles ও reflexes শক্তিশালী",
-    "facial features well-developed"
+    "ভ্রূণ স্পষ্টভাবে অনুভব করা যায়",
+    "ফুসফুস, মস্তিষ্ক ও পেশী আরও বিকশিত",
+    "ত্বক অস্বচ্ছ, vernix সুরক্ষামূলক স্তর পূর্ণ",
+    "পেশী ও প্রতিসংবেদন শক্তিশালী",
+    "মুখমন্ডল ভালোভাবে বিকশিত"
   ],
   "motherChanges": [
-    "পেট বড়, stretching & pressure অনুভূত হতে পারে",
-    "backache বা কোমরে চাপ থাকতে পারে",
-    "edema বা swelling হতে পারে",
-    "energy level কমতে পারে, sleep disturbance হতে পারে"
+    "পেট বড়, পেশীর টান ও চাপ অনুভূত হতে পারে",
+    "পিঠে ব্যথা বা কোমরে চাপ থাকতে পারে",
+    "ফোলা বা edema থাকতে পারে",
+    "শক্তি কমতে পারে, ঘুম বিঘ্নিত হতে পারে"
   ],
   "doThisWeek": [
     "সুষম খাদ্য ও পর্যাপ্ত পানি গ্রহণ নিশ্চিত করুন",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম বা walking চালিয়ে যান",
-    "ANC visit-4 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
-    "প্রসব প্রস্তুতি ও delivery plan যাচাই করুন"
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম চালিয়ে যান",
+    "ANC visit-4 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন",
+    "প্রসবের জন্য প্রস্তুতি এবং delivery plan যাচাই করুন"
   ],
   "warnings": [
-    "অস্বাভাবিক রক্তপাত বা contractions",
+    "অস্বাভাবিক রক্তপাত বা সংকোচন",
     "জ্বর বা সংক্রমণের লক্ষণ",
     "জলের leakage বা প্রচণ্ড ব্যথা"
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/06/Week-35-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 35"
+      "attribution": "Shohay Health – গর্ভাবস্থা ৩৫তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

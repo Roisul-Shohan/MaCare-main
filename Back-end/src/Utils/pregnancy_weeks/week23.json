@@ -4,22 +4,22 @@
   "babyWeight": { "grams": 500 },
   "babyLength": { "mm": 289 },
   "developmentHighlights": [
-    "ভ্রূণ movement আরও active, mother স্পর্শ অনুভব করতে পারে",
-    "skin opaque হতে শুরু করেছে",
-    "facial muscles আরও active, expressions possible",
+    "ভ্রূণ movement আরও সক্রিয়, মা স্পর্শ অনুভব করতে পারে",
+    "ত্বক অস্বচ্ছ হতে শুরু করেছে",
+    "মুখমণ্ডল আরও সক্রিয়, বিভিন্ন অভিব্যক্তি সম্ভব",
     "হাড় ও মাংশপেশি শক্ত হচ্ছে",
-    "lungs & digestive system বিকশিত হচ্ছে"
+    "ফুসফুস ও পাচনতন্ত্র বিকশিত হচ্ছে"
   ],
   "motherChanges": [
-    "পেট বড়, pressure/stretching অনুভূত হতে পারে",
-    "backache বা কোমরে হালকা চাপ",
-    "energy level ভালো, appetite ভালো",
+    "পেট বড়, পেশীর চাপ বা টান অনুভূত হতে পারে",
+    "পিঠ বা কোমরে হালকা চাপ থাকতে পারে",
+    "শক্তি ভালো, খাওয়ার আগ্রহ বৃদ্ধি পেতে পারে",
     "হালকা মেজাজ পরিবর্তন হতে পারে"
   ],
   "doThisWeek": [
-    "সুষম খাদ্য ও পর্যাপ্ত পানি পান চালিয়ে যান",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম করুন",
+    "সুষম খাদ্য ও পর্যাপ্ত পানি নিশ্চিত করুন",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম চালিয়ে যান",
     "ANC visit-2 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন"
   ],
   "warnings": [
@@ -28,13 +28,13 @@
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/05/Week-23-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 23"
+      "attribution": "Shohay Health – গর্ভাবস্থা ২৩তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

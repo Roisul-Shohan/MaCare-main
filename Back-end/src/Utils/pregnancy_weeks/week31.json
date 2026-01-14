@@ -4,38 +4,38 @@
   "babyWeight": { "grams": 1500 },
   "babyLength": { "mm": 411 },
   "developmentHighlights": [
-    "ভ্রূণ movement mother সহজেই অনুভব করতে পারে",
-    "lungs ও respiratory muscles আরও শক্তিশালী হচ্ছে",
-    "skin opaque, vernix protective layer সম্পূর্ণ",
-    "facial features ও reflexes active",
-    "muscles শক্ত এবং coordination ভালো"
+    "ভ্রূণ সহজেই অনুভব করা যায়",
+    "ফুসফুস ও শ্বাসনালী পেশী আরও শক্তিশালী হচ্ছে",
+    "ত্বক অস্বচ্ছ, vernix সুরক্ষামূলক স্তর সম্পূর্ণ",
+    "মুখমন্ডল ও প্রতিসংবেদন সক্রিয়",
+    "পেশী শক্ত এবং সমন্বয় ভালো"
   ],
   "motherChanges": [
-    "পেট বড়, stretching & pressure অনুভূত হতে পারে",
-    "backache বা কোমরে চাপ হতে পারে",
-    "edema বা swelling হতে পারে",
-    "energy level কমতে পারে, sleep disturbance হতে পারে"
+    "পেট বড়, পেশীর টান ও চাপ অনুভূত হতে পারে",
+    "পিঠে ব্যথা বা কোমরে চাপ হতে পারে",
+    "ফোলা বা edema থাকতে পারে",
+    "শক্তি কমতে পারে, ঘুম বিঘ্নিত হতে পারে"
   ],
   "doThisWeek": [
-    "পর্যাপ্ত পানি ও সুষম খাদ্য গ্রহণ চালিয়ে যান",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম বা walking চালিয়ে যান",
-    "ANC visit-3 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন"
+    "পর্যাপ্ত পানি ও সুষম খাদ্য গ্রহণ চালিয়ে যান",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম বা হাঁটা চালিয়ে যান",
+    "ANC visit-3 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন"
   ],
   "warnings": [
     "অস্বাভাবিক বা অতিরিক্ত রক্তপাত",
     "জ্বর বা সংক্রমণের লক্ষণ",
-    "তীব্র পেট ব্যথা বা contractions"
+    "তীব্র পেট ব্যথা বা সংকোচন"
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/06/Week-31-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 31"
+      "attribution": "Shohay Health – গর্ভাবস্থা ৩১তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

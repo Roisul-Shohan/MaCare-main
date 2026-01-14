@@ -4,24 +4,24 @@
   "babyWeight": { "grams": 660 },
   "babyLength": { "mm": 346 },
   "developmentHighlights": [
-    "ভ্রূণ movement আরও শক্তিশালী, mother সহজেই অনুভব করতে পারে",
-    "হাড় ও muscles আরও শক্ত হচ্ছে",
-    "lungs বিকাশ আরও স্পষ্ট, breathing reflex শুরু হতে পারে",
-    "facial expressions আরও refined",
-    "skin opaque হতে শুরু, vernix জমছে"
+    "ভ্রূণ movement আরও শক্তিশালী, মা সহজেই অনুভব করতে পারে",
+    "হাড় ও পেশী আরও শক্ত হচ্ছে",
+    "ফুসফুসের বিকাশ আরও স্পষ্ট, শ্বাস নেওয়ার প্রতিসংবেদন শুরু হতে পারে",
+    "মুখভঙ্গি আরও সুগঠিত",
+    "ত্বক অস্বচ্ছ হতে শুরু, vernix জমছে"
   ],
   "motherChanges": [
-    "পেট বড়, stretching ও pressure অনুভূত হতে পারে",
-    "backache বা কোমরে হালকা চাপ থাকতে পারে",
-    "হালকা edema বা swelling হতে পারে",
-    "energy level ভালো, appetite বৃদ্ধি"
+    "পেট বড়, পেশীর টান ও চাপ অনুভূত হতে পারে",
+    "পিঠে বা কোমরে হালকা চাপ থাকতে পারে",
+    "হালকা ফোলা বা edema থাকতে পারে",
+    "শক্তি ভালো, খাবারের আগ্রহ বৃদ্ধি পেতে পারে"
   ],
   "doThisWeek": [
-    "সুষম খাদ্য ও পর্যাপ্ত পানি পান চালিয়ে যান",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "সুষম খাদ্য ও পর্যাপ্ত পানি নিশ্চিত করুন",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
     "নিয়মিত হালকা ব্যায়াম করুন",
     "ANC visit-3 পরিকল্পনা করুন",
-    "ধূমপান ও অ্যালকোহল সম্পূর্ণ এড়িয়ে চলুন"
+    "ধূমপান ও অ্যালকোহল সম্পূর্ণ এড়িয়ে চলুন"
   ],
   "warnings": [
     "অস্বাভাবিক বা অতিরিক্ত রক্তপাত",
@@ -30,13 +30,13 @@
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/05/Week-25-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 25"
+      "attribution": "Shohay Health – গর্ভাবস্থা ২৫তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

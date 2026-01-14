@@ -4,22 +4,22 @@
   "babyWeight": { "grams": 430 },
   "babyLength": { "mm": 278 },
   "developmentHighlights": [
-    "ভ্রূণ movement mother স্পষ্টভাবে অনুভব করতে পারে",
-    "skin thicker, vernix আরও জমছে",
+    "ভ্রূণ movement মা স্পষ্টভাবে অনুভব করতে পারে",
+    "ত্বক ঘন, vernix আরও জমছে",
     "হাড় ও মাংশপেশি শক্ত হচ্ছে",
-    "chest muscles ও respiratory system বিকশিত হচ্ছে",
-    "facial features আরও স্পষ্ট"
+    "বক্ষ পেশী ও শ্বাসপ্রশ্বাসের পদ্ধতি বিকশিত হচ্ছে",
+    "মুখমণ্ডল আরও স্পষ্ট"
   ],
   "motherChanges": [
-    "পেট বড়, pressure/stretching অনুভূত হতে পারে",
-    "backache বা কোমরে হালকা চাপ",
-    "energy level ভালো, appetite বৃদ্ধি পেতে পারে",
+    "পেট বড়, পেশীর চাপ বা টান অনুভূত হতে পারে",
+    "পিঠ বা কোমরে হালকা চাপ থাকতে পারে",
+    "শক্তি ভালো, খাওয়ার আগ্রহ বৃদ্ধি পেতে পারে",
     "মেজাজ স্থিতিশীল"
   ],
   "doThisWeek": [
     "সুষম খাদ্য ও পর্যাপ্ত পানি পান নিশ্চিত করুন",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
-    "হালকা ব্যায়াম করুন",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত নিন",
+    "হালকা ব্যায়াম চালিয়ে যান",
     "ANC visit-2 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন"
   ],
   "warnings": [
@@ -28,13 +28,13 @@
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/05/Week-22-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 22"
+      "attribution": "Shohay Health – গর্ভাবস্থা ২২তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {

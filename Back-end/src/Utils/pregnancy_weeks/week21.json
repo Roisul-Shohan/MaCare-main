@@ -4,22 +4,22 @@
   "babyWeight": { "grams": 350 },
   "babyLength": { "mm": 267 },
   "developmentHighlights": [
-    "ভ্রূণ movement আরও active, mother স্পষ্টভাবে অনুভব করতে পারে",
-    "হাড় ও মাংশপেশি শক্ত হচ্ছে",
-    "চোখের movement এবং hearing আরও উন্নত হচ্ছে",
-    "skin translucent, vernix caseosa তৈরি হতে শুরু",
-    "প্রাথমিক reflexes ও coordination বৃদ্ধি পাচ্ছে"
+    "ভ্রূণ movement আরও সক্রিয়, মা স্পষ্টভাবে অনুভব করতে পারেন",
+    "হাড় ও মাংশপেশি শক্ত হচ্ছে",
+    "চোখের movement এবং শ্রবণ আরও উন্নত হচ্ছে",
+    "ত্বক স্বচ্ছ (translucent), vernix caseosa তৈরি হতে শুরু",
+    "প্রাথমিক প্রতিসংবেদন ও সমন্বয় ক্ষমতা বৃদ্ধি পাচ্ছে"
   ],
   "motherChanges": [
-    "পেট আরও বেড়ে চলেছে, pressure ও stretching অনুভূত হতে পারে",
-    "backache বা কোমরে হালকা চাপ",
-    "energy level ভালো, appetite বৃদ্ধি পেতে পারে",
+    "পেট আরও বড় হচ্ছে, পেশীর চাপ বা টান অনুভূত হতে পারে",
+    "পিঠ বা কোমরে হালকা চাপ থাকতে পারে",
+    "শক্তি ভালো, খাওয়ার আগ্রহ বৃদ্ধি পেতে পারে",
     "মেজাজ সাধারণভাবে স্থিতিশীল"
   ],
   "doThisWeek": [
     "পর্যাপ্ত পানি পান ও সুষম খাদ্য নিশ্চিত করুন",
-    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত গ্রহণ চালিয়ে যান",
-    "নিরাপদ হালকা ব্যায়াম চালিয়ে যান",
+    "ফোলিক অ্যাসিড, আয়রন ও ক্যালসিয়াম নিয়মিত গ্রহণ চালিয়ে যান",
+    "নিরাপদ হালকা ব্যায়াম চালিয়ে যান",
     "ANC visit-2 অনুযায়ী স্বাস্থ্যকেন্দ্রে যাচাই করুন"
   ],
   "warnings": [
@@ -29,13 +29,13 @@
   ],
   "images": [
     {
-      "type": "real_medical_image",
+      "type": "চিকিৎসা চিত্র",
       "url": "https://assets.shohay.health/uploads/2021/05/Week-21-1.jpg",
-      "attribution": "Shohay Health – Pregnancy Week 21"
+      "attribution": "Shohay Health – গর্ভাবস্থা ২১তম সপ্তাহ"
     }
   ],
   "source": {
-    "name": "Shohay Health – Pregnancy Care",
+    "name": "Shohay Health – গর্ভাবস্থা পরিচর্যা",
     "url": "https://shohay.health"
   },
   "bangladeshANC": {
