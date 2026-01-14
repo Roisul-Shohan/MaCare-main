@@ -364,6 +364,46 @@ const getPregnancyWeeks = AsynHandler(async (req, res) => {
   }
 });
 
+// 16. Get nutrition weeks data from JSON files
+const getNutritionWeeks = AsynHandler(async (req, res) => {
+  const normalized = path.join(__dirname, '../Utils/pusti_weeks');
+  
+  try {
+    const files = fs.readdirSync(normalized).filter(f => f.endsWith('.json'));
+    const weeks = [];
+    
+    for (const file of files) {
+      try {
+        const filePath = path.join(normalized, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        
+        // Skip empty files
+        if (!content || content.trim().length === 0) {
+          console.warn(`Skipping empty file: ${file}`);
+          continue;
+        }
+        
+        const weekData = JSON.parse(content);
+        weeks.push(weekData);
+      } catch (fileError) {
+        console.error(`Error parsing file ${file}:`, fileError.message);
+        // Continue to next file instead of failing completely
+        continue;
+      }
+    }
+    
+    // Sort by week number
+    weeks.sort((a, b) => a.week - b.week);
+    
+    return res.status(200).json(
+      new ApiResponse(200, weeks, "Nutrition weeks data fetched successfully")
+    );
+  } catch (error) {
+    console.error('Error reading nutrition weeks:', error);
+    throw new ApiError(500, "Failed to fetch nutrition weeks data");
+  }
+});
+
 // ==================== KICK COUNTER FUNCTIONALITY ====================
 
 // 1. Save a new kick counter session
@@ -490,6 +530,7 @@ export {
     markAdviceAsRead,
     getMyCheckups,
     getPregnancyWeeks,
+    getNutritionWeeks,
     saveKickSession,
     getKickSessions,
     deleteKickSession

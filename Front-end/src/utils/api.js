@@ -202,6 +202,11 @@ export const api = {
   // Pregnancy weeks data
   getPregnancyWeeks: () =>
     apiFetch('/mother/pregnancy/weeks'),
+  
+  // Nutrition weeks data
+  getNutritionWeeks: () =>
+    apiFetch('/mother/nutrition/weeks'),
+  
   // Pregnancy Vaccine Tracker
   createVaccine: (data) => 
     apiFetch('/mother/vaccines', {

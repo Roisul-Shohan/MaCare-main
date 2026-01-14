@@ -8,6 +8,7 @@ import BabyProfileForm from '../components/BabyProfileForm';
 import BabyProfileView from '../components/BabyProfileView';
 import PregnancyCalculator from '../components/PregnancyCalculator';
 import PregnancyTracker from './PregnancyTracker';
+import NutritionTracker from './NutritionTracker';
 import VaccineTracker from '../components/VaccineTracker/VaccineTracker';
 import KickCounter from '../components/KickCounter';
 import KickCounterHistory from '../components/KickCounterHistory';
@@ -26,7 +27,7 @@ const MotherDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview'); // overview, advice, health-updates, kick-counter, checkups, profile
-  const [currentPage, setCurrentPage] = useState('dashboard'); // dashboard, profile
+  const [currentPage, setCurrentPage] = useState('dashboard'); // dashboard, profile, pregnancy, nutrition, vaccine-schedule
   const [profileView, setProfileView] = useState('menu'); // menu, pregnancy, baby, personal, healthcare, createBaby
   const [selectedBaby, setSelectedBaby] = useState(null); // Selected baby for viewing
 
@@ -44,6 +45,8 @@ const MotherDashboard = () => {
       }
     } else if (page === 'pregnancy') {
       setCurrentPage('pregnancy');
+    } else if (page === 'nutrition') {
+      setCurrentPage('nutrition');
     } else if (page === 'vaccine-schedule') {
       setCurrentPage('vaccine-schedule');
     } else {
@@ -776,6 +779,11 @@ const MotherDashboard = () => {
         {/* Pregnancy Tracker Page */}
         {currentPage === 'pregnancy' && (
           <PregnancyTracker />
+        )}
+
+        {/* Nutrition Tracker Page */}
+        {currentPage === 'nutrition' && (
+          <NutritionTracker />
         )}
 
         {/* Vaccine Schedule Page */}

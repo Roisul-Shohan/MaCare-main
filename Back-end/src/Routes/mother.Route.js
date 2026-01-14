@@ -19,6 +19,7 @@ import {
   markAdviceAsRead,
   getMyCheckups,
   getPregnancyWeeks,
+  getNutritionWeeks,
   saveKickSession,
   getKickSessions,
   deleteKickSession
@@ -57,6 +58,9 @@ router.route('/health-updates').get(jwtVerification, getAllHealthUpdates);
 router.route('/checkups').get(jwtVerification, getMyCheckups);
 // Pregnancy weeks data (static or seeded)
 router.route('/pregnancy/weeks').get(jwtVerification, getPregnancyWeeks);
+
+// Nutrition weeks data (static or seeded)
+router.route('/nutrition/weeks').get(jwtVerification, getNutritionWeeks);
 
 // Kick Counter routes
 router.route('/kick-counter').post(jwtVerification, saveKickSession);
