@@ -11,10 +11,9 @@ const Option={
 }
 
 
-const Register=AsynHandler(async(req,res)=>{
-  console.log("Register proccsing started ");
+const Register=AsynHandler(async(req,res)=>{  console.log("Register proccsing started ");
 
-    const {FullName="",UserName="",Email="",Gender="",Password="",PhoneNumber="",Role="",DateOfBirth,address}=req.body;
+    const {FullName="",UserName="",Email="",Gender="",Password="",PhoneNumber="",Role="",DateOfBirth,village,upazilla,zilla}=req.body;
     console.log(UserName,"   dff");
     if(FullName==="" || UserName==="" || Role==""||
         Email==="" || Password==="" || DateOfBirth===""){
@@ -57,7 +56,11 @@ const Register=AsynHandler(async(req,res)=>{
       PhoneNumber,
       Role,
       DateOfBirth,
-      address:address,
+      address: {
+        village: village || "",
+        upazilla: upazilla || "",
+        zilla: zilla || ""
+      },
       ProfileImage:ProfileImage?.url || "",
       ProfilePublicId:ProfileImage?.public_id || "",
    })

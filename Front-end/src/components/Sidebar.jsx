@@ -50,7 +50,7 @@ const Sidebar = ({ userRole = 'mother', onNavigate }) => {
       <div className="p-6 border-b">
         <h2 className="text-2xl font-bold text-primary-600">MaCare</h2>
         <p className="text-sm text-gray-600">
-          {userRole === 'mother' ? 'মায়ের প্যানেল' : 'ডাক্তারের প্যানেল'}
+          {userRole === 'mother' ? 'মায়ের প্যানেল' : (userRole === 'midWife' || userRole === 'midwife') ? 'ধাত্রীর প্যানেল' : 'ডাক্তারের প্যানেল'}
         </p>
       </div>
 

@@ -2,13 +2,11 @@ import { Router } from "express";
 import { jwtVerification } from "../Middleware/Authentication.Middleware.js";
 import {
     getMidwifeDashboard,
-    getAssignedMothers,
-    getMotherDetailsByID,
-    addHealthRecordUpdate,
-    scheduleCheckup,
-    getPendingCheckups,
-    completeCheckup,
-    assignMotherToMidwife
+    searchMothersByVillage,
+    getMissedCheckups,
+    getMotherDetails,
+    createWeeklyCheckup,
+    getMyCheckups
 } from "../Controllers/midwife.controller.js";
 
 const router = Router();
@@ -19,19 +17,19 @@ router.use(jwtVerification);
 // Dashboard
 router.route("/dashboard").get(getMidwifeDashboard);
 
-// Assigned Mothers
-router.route("/mothers").get(getAssignedMothers);
-router.route("/mothers/:motherID").get(getMotherDetailsByID);
+// Search mothers by village
+router.route("/search-mothers").get(searchMothersByVillage);
 
-// Health Record Updates
-router.route("/mothers/:motherID/health-update").post(addHealthRecordUpdate);
+// Get mothers who missed this week's checkup
+router.route("/missed-checkups").get(getMissedCheckups);
 
-// Checkup Management
-router.route("/checkups/pending").get(getPendingCheckups);
-router.route("/mothers/:motherID/schedule-checkup").post(scheduleCheckup);
-router.route("/checkups/:checkupID/complete").patch(completeCheckup);
+// Get specific mother details
+router.route("/mother/:motherID").get(getMotherDetails);
 
-// Assignment (typically admin function)
-router.route("/assign-mother").post(assignMotherToMidwife);
+// Create weekly checkup for a mother
+router.route("/mother/:motherID/checkup").post(createWeeklyCheckup);
+
+// Get midwife's own checkup history
+router.route("/my-checkups").get(getMyCheckups);
 
 export default router;

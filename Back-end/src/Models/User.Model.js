@@ -83,7 +83,18 @@
        },
 
        address:{
-         type:String
+         village: {
+           type: String,
+           required: false
+         },
+         upazilla: {
+           type: String,
+           required: false
+         },
+         zilla: {
+           type: String,
+           required: false
+         }
        }
 
 

@@ -2,327 +2,334 @@ import { AsynHandler } from "../Utils/AsyncHandler.js";
 import { ApiError } from "../Utils/ApiError.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 import { User } from "../Models/User.Model.js";
-import { MidwifeMotherAssignment } from "../Models/MidwifeMotherAssignment.model.js";
-import { HealthRecordUpdate } from "../Models/HealthRecordUpdate.model.js";
-import { CheckupNotification } from "../Models/CheckupNotification.model.js";
 import { MaternalRecord } from "../Models/Maternal.model.js";
 import { DoctorAdvice } from "../Models/DoctorAdvice.model.js";
+import { WeeklyCheckup } from "../Models/WeeklyCheckup.model.js";
 
-// Get Midwife Dashboard
+// Get Midwife Dashboard Statistics
 const getMidwifeDashboard = AsynHandler(async (req, res) => {
-    const midwifeID = req.user._id;
-    
-    // Get assigned mothers count
-    const assignedMothersCount = await MidwifeMotherAssignment.countDocuments({
-        midwifeID,
-        status: "active"
-    });
-    
-    // Get pending checkups today
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const todayCheckups = await CheckupNotification.find({
-        midwifeID,
-        status: "pending",
-        scheduledDate: { $gte: today, $lt: tomorrow }
-    }).populate("motherID", "FullName PhoneNumber");
-    
-    // Get recent health updates
-    const recentUpdates = await HealthRecordUpdate.find({
-        updatedBy: midwifeID,
-        updaterRole: "midWife"
-    })
-    .sort({ createdAt: -1 })
+  const midwifeID = req.user._id;
+  
+  // Get current week info
+  const { weekNumber, year } = WeeklyCheckup.getCurrentWeekInfo();
+  
+  // Get total mothers in the system
+  const totalMothers = await User.countDocuments({ Role: "mother" });
+  
+  // Get checkups done this week by this midwife
+  const checkupsThisWeek = await WeeklyCheckup.countDocuments({
+    midwifeID,
+    weekNumber,
+    year
+  });
+  
+  // Get checkups done today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  
+  const checkupsToday = await WeeklyCheckup.countDocuments({
+    midwifeID,
+    checkupDate: { $gte: today, $lt: tomorrow }
+  });
+  
+  // Get all mothers who had checkups this week
+  const mothersWithCheckup = await WeeklyCheckup.find({
+    weekNumber,
+    year
+  }).distinct('motherID');
+  
+  // Count mothers who missed this week's checkup
+  const mothersMissedCheckup = totalMothers - mothersWithCheckup.length;
+  
+  // Get recent checkups done by this midwife
+  const recentCheckups = await WeeklyCheckup.find({ midwifeID })
+    .sort({ checkupDate: -1 })
     .limit(5)
-    .populate("motherID", "FullName");
-    
-    // Get high priority mothers (upcoming checkups in next 3 days)
-    const threeDaysLater = new Date(today);
-    threeDaysLater.setDate(threeDaysLater.getDate() + 3);
-    
-    const upcomingCheckups = await CheckupNotification.find({
-        midwifeID,
-        status: "pending",
-        scheduledDate: { $gte: today, $lt: threeDaysLater }
-    }).populate("motherID", "FullName PhoneNumber");
-    
-    return res.status(200).json(new ApiResponse(200, {
-        assignedMothersCount,
-        capacityRemaining: 20 - assignedMothersCount,
-        todayCheckups,
-        upcomingCheckups,
-        recentUpdates
-    }, "Midwife dashboard data fetched successfully"));
+    .populate('motherID', 'FullName PhoneNumber address')
+    .lean();
+  
+  return res.status(200).json(
+    new ApiResponse(200, {
+      statistics: {
+        totalMothers,
+        checkupsThisWeek,
+        checkupsToday,
+        mothersMissedCheckup,
+        currentWeek: weekNumber,
+        currentYear: year
+      },
+      recentCheckups
+    }, "Dashboard data fetched successfully")
+  );
 });
 
-// Get Assigned Mothers List
-const getAssignedMothers = AsynHandler(async (req, res) => {
-    const midwifeID = req.user._id;
-    
-    const assignments = await MidwifeMotherAssignment.find({
-        midwifeID,
-        status: "active"
-    }).populate({
-        path: "motherID",
-        select: "FullName Email PhoneNumber DateOfBirth address ProfileImage"
-    });
-    
-    // Get maternal records and latest health updates for each mother
-    const mothersData = await Promise.all(assignments.map(async (assignment) => {
-        const maternalRecord = await MaternalRecord.findOne({ motherID: assignment.motherID._id });
-        const latestHealthUpdate = await HealthRecordUpdate.findOne({
-            motherID: assignment.motherID._id
-        }).sort({ createdAt: -1 });
-        
-        // Calculate pregnancy week if LMP exists
-        let pregnancyWeek = null;
-        if (maternalRecord?.LMP) {
-            const daysSinceLMP = Math.floor((Date.now() - new Date(maternalRecord.LMP)) / (1000 * 60 * 60 * 24));
-            pregnancyWeek = Math.floor(daysSinceLMP / 7);
-        }
-        
-        return {
-            assignment,
-            mother: assignment.motherID,
-            maternalRecord,
-            pregnancyWeek,
-            latestHealthUpdate,
-            lastCheckup: latestHealthUpdate?.checkupDate
-        };
-    }));
-    
-    return res.status(200).json(new ApiResponse(200, mothersData, "Assigned mothers fetched successfully"));
-});
-
-// Get Mother Details by ID
-const getMotherDetailsByID = AsynHandler(async (req, res) => {
-    const { motherID } = req.params;
-    const midwifeID = req.user._id;
-    
-    // Verify assignment
-    const assignment = await MidwifeMotherAssignment.findOne({
-        midwifeID,
-        motherID,
-        status: "active"
-    });
-    
-    if (!assignment) {
-        throw new ApiError(403, "You are not assigned to this mother");
-    }
-    
-    // Get mother details
-    const mother = await User.findById(motherID).select("-Password -RefreshToken");
-    if (!mother) {
-        throw new ApiError(404, "Mother not found");
-    }
-    
-    // Get maternal record
-    const maternalRecord = await MaternalRecord.findOne({ motherID });
-    
-    // Get all health updates
-    const healthUpdates = await HealthRecordUpdate.find({ motherID })
-        .sort({ createdAt: -1 })
-        .populate("updatedBy", "FullName Role");
-    
-    // Get doctor's advice
-    const doctorAdvices = await DoctorAdvice.find({ motherID })
-        .sort({ createdAt: -1 })
-        .populate("doctorID", "FullName");
-    
-    // Get checkup schedule
-    const checkupSchedule = await CheckupNotification.find({ 
-        motherID,
-        midwifeID 
-    }).sort({ scheduledDate: 1 });
-    
-    // Calculate pregnancy week
-    let pregnancyWeek = null;
-    if (maternalRecord?.LMP) {
-        const daysSinceLMP = Math.floor((Date.now() - new Date(maternalRecord.LMP)) / (1000 * 60 * 60 * 24));
-        pregnancyWeek = Math.floor(daysSinceLMP / 7);
-    }
-    
-    return res.status(200).json(new ApiResponse(200, {
-        mother,
-        maternalRecord,
-        pregnancyWeek,
-        healthUpdates,
-        doctorAdvices,
-        checkupSchedule
-    }, "Mother details fetched successfully"));
-});
-
-// Add Health Record Update
-const addHealthRecordUpdate = AsynHandler(async (req, res) => {
-    const { motherID } = req.params;
-    const midwifeID = req.user._id;
-    
-    // Verify assignment
-    const assignment = await MidwifeMotherAssignment.findOne({
-        midwifeID,
-        motherID,
-        status: "active"
-    });
-    
-    if (!assignment) {
-        throw new ApiError(403, "You are not assigned to this mother");
-    }
-    
-    const {
-        bloodPressure,
-        weight,
-        height,
-        temperature,
-        pulseRate,
-        symptoms,
-        complaints,
-        findings,
-        recommendations,
-        nextCheckupDate,
-        pregnancyWeek,
-        fetalHeartRate,
-        fundalHeight
-    } = req.body;
-    
-    const healthUpdate = await HealthRecordUpdate.create({
-        motherID,
-        updatedBy: midwifeID,
-        updaterRole: "midWife",
-        vitalSigns: {
-            bloodPressure,
-            weight,
-            height,
-            temperature,
-            pulseRate
-        },
-        symptoms,
-        complaints,
-        findings,
-        recommendations,
-        nextCheckupDate,
-        pregnancyWeek,
-        fetalHeartRate,
-        fundalHeight
-    });
-    
-    // Create next checkup notification if date is provided
-    if (nextCheckupDate) {
-        await CheckupNotification.create({
-            motherID,
-            midwifeID,
-            scheduledDate: nextCheckupDate,
-            checkupType: "followup"
-        });
-    }
-    
-    return res.status(201).json(new ApiResponse(201, healthUpdate, "Health record updated successfully"));
-});
-
-// Schedule Checkup
-const scheduleCheckup = AsynHandler(async (req, res) => {
-    const { motherID } = req.params;
-    const midwifeID = req.user._id;
-    const { scheduledDate, checkupType, notes } = req.body;
-    
-    // Verify assignment
-    const assignment = await MidwifeMotherAssignment.findOne({
-        midwifeID,
-        motherID,
-        status: "active"
-    });
-    
-    if (!assignment) {
-        throw new ApiError(403, "You are not assigned to this mother");
-    }
-    
-    const notification = await CheckupNotification.create({
-        motherID,
-        midwifeID,
-        scheduledDate,
-        checkupType,
-        notes
-    });
-    
-    return res.status(201).json(new ApiResponse(201, notification, "Checkup scheduled successfully"));
-});
-
-// Get Pending Checkup Notifications
-const getPendingCheckups = AsynHandler(async (req, res) => {
-    const midwifeID = req.user._id;
-    
-    const pendingCheckups = await CheckupNotification.find({
-        midwifeID,
-        status: "pending",
-        scheduledDate: { $gte: new Date() }
+// Search Mothers by Village Name
+const searchMothersByVillage = AsynHandler(async (req, res) => {
+  const { villageName } = req.query;
+  
+  if (!villageName) {
+    throw new ApiError(400, "Village name is required");
+  }
+  
+  // Search for mothers whose address.village contains the search term
+  const mothers = await User.find({
+    Role: "mother",
+    "address.village": { $regex: villageName, $options: 'i' }
+  })
+  .select('FullName PhoneNumber Email address DateOfBirth BloodGroup')
+  .lean();
+  
+  // Get current week info
+  const { weekNumber, year} = WeeklyCheckup.getCurrentWeekInfo();
+  
+  // For each mother, check if they had a checkup this week
+  const mothersWithCheckupStatus = await Promise.all(
+    mothers.map(async (mother) => {
+      const hasCheckup = await WeeklyCheckup.findOne({
+        motherID: mother._id,
+        weekNumber,
+        year
+      });
+      
+      // Get maternal record for pregnancy info
+      const maternalRecord = await MaternalRecord.findOne({ 
+        motherID: mother._id 
+      }).select('pregnancy');
+      
+      return {
+        ...mother,
+        hasCheckupThisWeek: !!hasCheckup,
+        checkupBy: hasCheckup ? hasCheckup.midwifeID : null,
+        pregnancyInfo: maternalRecord?.pregnancy || null
+      };
     })
-    .sort({ scheduledDate: 1 })
-    .populate("motherID", "FullName PhoneNumber address");
-    
-    return res.status(200).json(new ApiResponse(200, pendingCheckups, "Pending checkups fetched successfully"));
+  );
+  
+  return res.status(200).json(
+    new ApiResponse(200, {
+      mothers: mothersWithCheckupStatus,
+      count: mothersWithCheckupStatus.length,
+      searchTerm: villageName
+    }, "Mothers fetched successfully")
+  );
 });
 
-// Mark Checkup as Completed
-const completeCheckup = AsynHandler(async (req, res) => {
-    const { checkupID } = req.params;
-    const { notes } = req.body;
-    
-    const checkup = await CheckupNotification.findByIdAndUpdate(
-        checkupID,
-        {
-            status: "completed",
-            completedDate: new Date(),
-            notes
-        },
-        { new: true }
-    );
-    
-    if (!checkup) {
-        throw new ApiError(404, "Checkup notification not found");
-    }
-    
-    return res.status(200).json(new ApiResponse(200, checkup, "Checkup marked as completed"));
+// Get Mothers Who Missed Weekly Checkup
+const getMissedCheckups = AsynHandler(async (req, res) => {
+  const { weekNumber, year } = WeeklyCheckup.getCurrentWeekInfo();
+  
+  // Get all mother IDs
+  const allMothers = await User.find({ Role: "mother" })
+    .select('FullName PhoneNumber Email address DateOfBirth')
+    .lean();
+  
+  // Get all mothers who had checkups this week
+  const mothersWithCheckup = await WeeklyCheckup.find({
+    weekNumber,
+    year
+  }).distinct('motherID');
+  
+  // Filter mothers who missed checkup
+  const mothersMissed = allMothers.filter(
+    mother => !mothersWithCheckup.some(id => id.equals(mother._id))
+  );
+  
+  // Get maternal records for pregnancy info
+  const mothersWithPregnancyInfo = await Promise.all(
+    mothersMissed.map(async (mother) => {
+      const maternalRecord = await MaternalRecord.findOne({ 
+        motherID: mother._id 
+      }).select('pregnancy');
+      
+      // Get last checkup date
+      const lastCheckup = await WeeklyCheckup.findOne({
+        motherID: mother._id
+      }).sort({ checkupDate: -1 });
+      
+      return {
+        ...mother,
+        pregnancyInfo: maternalRecord?.pregnancy || null,
+        lastCheckupDate: lastCheckup?.checkupDate || null,
+        weeksSinceLastCheckup: lastCheckup 
+          ? Math.floor((Date.now() - lastCheckup.checkupDate) / (7 * 24 * 60 * 60 * 1000))
+          : null
+      };
+    })
+  );
+  
+  return res.status(200).json(
+    new ApiResponse(200, {
+      mothersMissed: mothersWithPregnancyInfo,
+      count: mothersWithPregnancyInfo.length,
+      currentWeek: weekNumber,
+      currentYear: year
+    }, "Missed checkups fetched successfully")
+  );
 });
 
-// Assign Mother to Midwife (Admin function, but including for completeness)
-const assignMotherToMidwife = AsynHandler(async (req, res) => {
-    const { midwifeID, motherID, notes } = req.body;
-    
-    // Check midwife capacity
-    const hasCapacity = await MidwifeMotherAssignment.checkMidwifeCapacity(midwifeID);
-    if (!hasCapacity) {
-        throw new ApiError(400, "Midwife has reached maximum capacity of 20 mothers");
-    }
-    
-    // Check if assignment already exists
-    const existingAssignment = await MidwifeMotherAssignment.findOne({
-        midwifeID,
-        motherID,
-        status: "active"
-    });
-    
-    if (existingAssignment) {
-        throw new ApiError(400, "This mother is already assigned to this midwife");
-    }
-    
-    const assignment = await MidwifeMotherAssignment.create({
-        midwifeID,
-        motherID,
-        notes
-    });
-    
-    return res.status(201).json(new ApiResponse(201, assignment, "Mother assigned to midwife successfully"));
+// Get Mother Details with Checkup History and Doctor's Advice
+const getMotherDetails = AsynHandler(async (req, res) => {
+  const { motherID } = req.params;
+  
+  if (!motherID) {
+    throw new ApiError(400, "Mother ID is required");
+  }
+  
+  // Get mother info
+  const mother = await User.findById(motherID)
+    .select('-Password -RefreshToken')
+    .lean();
+  
+  if (!mother || mother.Role !== 'mother') {
+    throw new ApiError(404, "Mother not found");
+  }
+  
+  // Get maternal record
+  const maternalRecord = await MaternalRecord.findOne({ motherID }).lean();
+  
+  // Get checkup history
+  const checkupHistory = await WeeklyCheckup.find({ motherID })
+    .sort({ checkupDate: -1 })
+    .populate('midwifeID', 'FullName')
+    .lean();
+  
+  // Get doctor's advice
+  const doctorAdvice = await DoctorAdvice.find({ motherID })
+    .sort({ createdAt: -1 })
+    .populate('doctorID', 'FullName')
+    .lean();
+  
+  // Check if checkup already done this week
+  const { weekNumber, year } = WeeklyCheckup.getCurrentWeekInfo();
+  const hasCheckupThisWeek = await WeeklyCheckup.findOne({
+    motherID,
+    weekNumber,
+    year
+  });
+  
+  return res.status(200).json(
+    new ApiResponse(200, {
+      mother,
+      maternalRecord,
+      checkupHistory,
+      doctorAdvice,
+      hasCheckupThisWeek: !!hasCheckupThisWeek,
+      checkupThisWeekBy: hasCheckupThisWeek ? hasCheckupThisWeek.midwifeID : null
+    }, "Mother details fetched successfully")
+  );
+});
+
+// Create Weekly Checkup
+const createWeeklyCheckup = AsynHandler(async (req, res) => {
+  const midwifeID = req.user._id;
+  const { motherID, systolic, diastolic, weight, height, notes } = req.body;
+  
+  // Validation
+  if (!motherID) {
+    throw new ApiError(400, "Mother ID is required");
+  }
+  
+  if (!systolic || !diastolic || !weight) {
+    throw new ApiError(400, "Blood pressure and weight are required");
+  }
+  
+  // Validate mother exists
+  const mother = await User.findById(motherID);
+  if (!mother || mother.Role !== 'mother') {
+    throw new ApiError(404, "Mother not found");
+  }
+  
+  // Get current week info
+  const { weekNumber, year } = WeeklyCheckup.getCurrentWeekInfo();
+  
+  // Check if checkup already exists for this week
+  const existingCheckup = await WeeklyCheckup.findOne({
+    motherID,
+    weekNumber,
+    year
+  });
+  
+  if (existingCheckup) {
+    throw new ApiError(409, "এই মায়ের এই সপ্তাহের চেকআপ ইতিমধ্যে সম্পন্ন হয়েছে");
+  }
+  
+  // Get pregnancy week if maternal record exists
+  let pregnancyWeek = null;
+  const maternalRecord = await MaternalRecord.findOne({ motherID });
+  if (maternalRecord && maternalRecord.pregnancy && maternalRecord.pregnancy.lmpDate) {
+    const lmpDate = new Date(maternalRecord.pregnancy.lmpDate);
+    const today = new Date();
+    const diffTime = Math.abs(today - lmpDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    pregnancyWeek = Math.floor(diffDays / 7);
+  }
+  
+  // Create checkup
+  const checkup = await WeeklyCheckup.create({
+    motherID,
+    midwifeID,
+    checkupDate: new Date(),
+    weekNumber,
+    year,
+    bloodPressure: {
+      systolic: Number(systolic),
+      diastolic: Number(diastolic)
+    },
+    weight: Number(weight),
+    height: height ? Number(height) : null,
+    pregnancyWeek,
+    notes,
+    isLocked: true,
+    lockedAt: new Date()
+  });
+  
+  // Populate checkup with mother and midwife info
+  const populatedCheckup = await WeeklyCheckup.findById(checkup._id)
+    .populate('motherID', 'FullName PhoneNumber address')
+    .populate('midwifeID', 'FullName')
+    .lean();
+  
+  return res.status(201).json(
+    new ApiResponse(201, populatedCheckup, "সাপ্তাহিক চেকআপ সফলভাবে সম্পন্ন হয়েছে")
+  );
+});
+
+// Get Midwife's Checkup History
+const getMyCheckups = AsynHandler(async (req, res) => {
+  const midwifeID = req.user._id;
+  const { page = 1, limit = 20 } = req.query;
+  
+  const skip = (page - 1) * limit;
+  
+  const checkups = await WeeklyCheckup.find({ midwifeID })
+    .sort({ checkupDate: -1 })
+    .skip(skip)
+    .limit(Number(limit))
+    .populate('motherID', 'FullName PhoneNumber address')
+    .lean();
+  
+  const total = await WeeklyCheckup.countDocuments({ midwifeID });
+  
+  return res.status(200).json(
+    new ApiResponse(200, {
+      checkups,
+      pagination: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / limit)
+      }
+    }, "Checkups fetched successfully")
+  );
 });
 
 export {
-    getMidwifeDashboard,
-    getAssignedMothers,
-    getMotherDetailsByID,
-    addHealthRecordUpdate,
-    scheduleCheckup,
-    getPendingCheckups,
-    completeCheckup,
-    assignMotherToMidwife
+  getMidwifeDashboard,
+  searchMothersByVillage,
+  getMissedCheckups,
+  getMotherDetails,
+  createWeeklyCheckup,
+  getMyCheckups
 };

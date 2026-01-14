@@ -36,7 +36,10 @@ const getMotherProfile = AsynHandler(async (req, res) => {
 const getMaternalRecord = AsynHandler(async (req, res) => {
 
   const record = await MaternalRecord.findOne({ motherID: req.user._id });
-  if (!record) throw new ApiError(404, "Maternal record not found");
+  if (!record) {
+    // Return null/empty response instead of throwing error - record may not exist yet
+    return res.status(200).json(new ApiResponse(200, null, "No maternal record found"));
+  }
   
   console.log("Maternal record fetched");
   return res.status(200).json(new ApiResponse(200, record, "Maternal record fetched"));

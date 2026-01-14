@@ -688,7 +688,15 @@ const MotherDashboard = () => {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-600">ঠিকানা:</span>
-                          <span className="font-medium">{profileData?.address || user?.address || 'N/A'}</span>
+                          <span className="font-medium">
+                            {(() => {
+                              const address = profileData?.address || user?.address;
+                              if (!address) return 'N/A';
+                              if (typeof address === 'string') return address;
+                              const { village, upazilla, zilla } = address;
+                              return [village, upazilla, zilla].filter(Boolean).join(', ') || 'N/A';
+                            })()}
+                          </span>
                         </div>
                       </div>
                     </div>

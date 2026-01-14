@@ -18,7 +18,9 @@ const Register = ({ onNavigate }) => {
     PhoneNumber: '',
     DateOfBirth: '',
     BloodGroup: '',
-    address: '',
+    village: '',
+    upazilla: '',
+    zilla: '',
     ProfileImage: null,
   });
 
@@ -55,7 +57,9 @@ const Register = ({ onNavigate }) => {
       submitData.append('Role', userRole);
       submitData.append('DateOfBirth', formData.DateOfBirth);
       submitData.append('BloodGroup', formData.BloodGroup);
-      submitData.append('address', formData.address);
+      submitData.append('village', formData.village);
+      submitData.append('upazilla', formData.upazilla);
+      submitData.append('zilla', formData.zilla);
       if (formData.ProfileImage) {
         submitData.append('ProfileImage', formData.ProfileImage);
       }
@@ -287,17 +291,43 @@ const Register = ({ onNavigate }) => {
                     </select>
                   </div>                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">ঠিকানা *</label>
-                  <textarea 
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="আপনার ঠিকানা লিখুন" 
-                    className="input-field" 
-                    rows="2"
-                    required
-                  ></textarea>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">গ্রাম *</label>
+                    <input 
+                      type="text"
+                      name="village"
+                      value={formData.village}
+                      onChange={handleInputChange}
+                      placeholder="গ্রামের নাম লিখুন" 
+                      className="input-field" 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">উপজেলা *</label>
+                    <input 
+                      type="text"
+                      name="upazilla"
+                      value={formData.upazilla}
+                      onChange={handleInputChange}
+                      placeholder="উপজেলার নাম লিখুন" 
+                      className="input-field" 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">জেলা *</label>
+                    <input 
+                      type="text"
+                      name="zilla"
+                      value={formData.zilla}
+                      onChange={handleInputChange}
+                      placeholder="জেলার নাম লিখুন" 
+                      className="input-field" 
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
