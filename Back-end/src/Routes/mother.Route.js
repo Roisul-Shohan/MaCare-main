@@ -32,6 +32,8 @@ import {
   getHealthTips
 } from "../Controllers/mother.controller.js";
 
+import { getHealthArticles, getHealthArticleBySlug } from "../Controllers/mother.controller.js";
+
 import {
   getVaccineSchedule as getPregnancyVaccineSchedule,
   markVaccineCompleted,
@@ -65,6 +67,10 @@ router.route('/health-updates').get(jwtVerification, getAllHealthUpdates);
 router.route('/checkups').get(jwtVerification, getMyCheckups);
 // Pregnancy weeks data (static or seeded)
 router.route('/pregnancy/weeks').get(jwtVerification, getPregnancyWeeks);
+
+// Health articles
+router.route('/health-articles').get(jwtVerification, getHealthArticles);
+router.route('/health-articles/:slug').get(jwtVerification, getHealthArticleBySlug);
 
 // Nutrition weeks data (static or seeded)
 router.route('/nutrition/weeks').get(jwtVerification, getNutritionWeeks);

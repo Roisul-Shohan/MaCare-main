@@ -199,6 +199,13 @@ export const api = {
   getMyCheckups: () => 
     apiFetch('/mother/checkups'),
 
+  // Health Articles
+  getHealthArticles: () =>
+    apiFetch('/mother/health-articles'),
+
+  getHealthArticle: (slug) =>
+    apiFetch(`/mother/health-articles/${slug}`),
+
   // Pregnancy weeks data
   getPregnancyWeeks: () =>
     apiFetch('/mother/pregnancy/weeks'),

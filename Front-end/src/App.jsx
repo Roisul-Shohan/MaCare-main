@@ -118,6 +118,14 @@ const AppContent = () => {
                   Mother Dashboard
                 </button>
                 <button
+                  onClick={() => setCurrentPage('health-articles')}
+                  className={`w-full text-left px-3 py-2 rounded text-sm ${
+                    currentPage === 'health-articles' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  স্বাস্থ্য সমস্যা (Demo)
+                </button>
+                <button
                   onClick={() => setCurrentPage('doctor-dashboard')}
                   className={`w-full text-left px-3 py-2 rounded text-sm ${
                     currentPage === 'doctor-dashboard' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

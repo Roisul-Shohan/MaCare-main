@@ -14,6 +14,7 @@ import NutritionTracker from './NutritionTracker';
 import VaccineTracker from '../components/VaccineTracker/VaccineTracker';
 import KickCounter from '../components/KickCounter';
 import KickCounterHistory from '../components/KickCounterHistory';
+import HealthArticles from './HealthArticles';
 import { useAuth } from '../utils/AuthContext';
 import api from '../utils/api';
 
@@ -28,7 +29,7 @@ const MotherDashboard = () => {
   const [maternalRecord, setMaternalRecord] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview'); // overview, advice, health-updates, kick-counter, checkups, profile
+  const [activeTab, setActiveTab] = useState('overview'); // overview, advice, health-updates, checkups, health-problems
   const [currentPage, setCurrentPage] = useState('dashboard'); // dashboard, profile, pregnancy, nutrition, vaccine-schedule
   const [profileView, setProfileView] = useState('menu'); // menu, pregnancy, baby, personal, healthcare, createBaby
   const [selectedBaby, setSelectedBaby] = useState(null); // Selected baby for viewing
@@ -51,6 +52,8 @@ const MotherDashboard = () => {
       setCurrentPage('nutrition');
     } else if (page === 'vaccine-schedule') {
       setCurrentPage('vaccine-schedule');
+    } else if (page === 'health-articles') {
+      setCurrentPage('health-articles');
     } else {
       setCurrentPage('dashboard');
     }
@@ -304,6 +307,16 @@ const MotherDashboard = () => {
             >
               নির্ধারিত চেকআপ
             </button>
+            <button
+              onClick={() => setActiveTab('health-problems')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'health-problems'
+                  ? 'border-primary-500 text-primary-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              সাধারণ স্বাস্থ্য সমস্যা
+            </button>
           </nav>
         </div>
 
@@ -470,6 +483,7 @@ const MotherDashboard = () => {
                 </div>
               </div>
             )}
+
           </>
         )}
 
@@ -530,6 +544,14 @@ const MotherDashboard = () => {
                 <p>কোনো নির্ধারিত চেকআপ নেই</p>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Health Problems Tab */}
+        {activeTab === 'health-problems' && (
+          <div className="card">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">সাধারণ স্বাস্থ্য সমস্যা</h2>
+            <HealthArticles onBack={() => setActiveTab('overview')} />
           </div>
         )}
 
@@ -777,6 +799,9 @@ const MotherDashboard = () => {
         {/* Vaccine Schedule Page */}
         {currentPage === 'vaccine-schedule' && (
           <VaccineTracker />
+        )}
+        {currentPage === 'health-articles' && (
+          <HealthArticles onBack={handleNavigation} />
         )}
       </main>
     </div>

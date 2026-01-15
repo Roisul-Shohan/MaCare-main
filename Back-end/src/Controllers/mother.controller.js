@@ -409,6 +409,64 @@ const getNutritionWeeks = AsynHandler(async (req, res) => {
   }
 });
 
+// 17. Get health articles list
+const getHealthArticles = AsynHandler(async (req, res) => {
+  const normalized = path.join(__dirname, '../Utils/health_article');
+
+  try {
+    const files = fs.readdirSync(normalized).filter(f => f.endsWith('.json'));
+    const articles = [];
+
+    for (const file of files) {
+      try {
+        const filePath = path.join(normalized, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        if (!content || content.trim().length === 0) continue;
+        const json = JSON.parse(content);
+        articles.push({
+          slug: file.replace(/\.json$/i, ''),
+          title: json.title || '',
+          overview: json.overview || json.intro || '',
+          language: json.language || 'bn',
+          lastUpdated: json.lastUpdated || null
+        });
+      } catch (err) {
+        console.warn(`Skipping invalid article file ${file}:`, err.message);
+        continue;
+      }
+    }
+
+    // sort alphabetically by title
+    articles.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+
+    return res.status(200).json(new ApiResponse(200, articles, 'Health articles fetched successfully'));
+  } catch (error) {
+    console.error('Error reading health articles:', error);
+    throw new ApiError(500, 'Failed to fetch health articles');
+  }
+});
+
+// 18. Get single health article by slug
+const getHealthArticleBySlug = AsynHandler(async (req, res) => {
+  const { slug } = req.params;
+  if (!slug) throw new ApiError(400, 'Article slug is required');
+
+  const normalized = path.join(__dirname, '../Utils/health_article');
+  const filePath = path.join(normalized, `${slug}.json`);
+
+  try {
+    if (!fs.existsSync(filePath)) throw new ApiError(404, 'Article not found');
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content) throw new ApiError(404, 'Article content empty');
+    const json = JSON.parse(content);
+    return res.status(200).json(new ApiResponse(200, json, 'Health article fetched successfully'));
+  } catch (error) {
+    console.error('Error reading article', slug, error);
+    if (error instanceof ApiError) throw error;
+    throw new ApiError(500, 'Failed to fetch article');
+  }
+});
+
 // ==================== KICK COUNTER FUNCTIONALITY ====================
 
 // 1. Save a new kick counter session
@@ -884,6 +942,8 @@ export {
     getMyCheckups,
     getPregnancyWeeks,
     getNutritionWeeks,
+    getHealthArticles,
+    getHealthArticleBySlug,
     saveKickSession,
     getKickSessions,
     deleteKickSession,
